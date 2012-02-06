@@ -171,6 +171,7 @@ poker-network/tests/test-pokerauth.py
 poker-network/tests/test-user.py
 poker-network/tests/test-pokeravatar.py
 poker-network/tests/test-pokerbotlogic.py
+poker-network/tests/test-pokerbot.py
 poker-network/tests/test-pokercashier.py
 poker-network/tests/test-pokerchildren.py
 poker-network/tests/test-pokerclient.py
