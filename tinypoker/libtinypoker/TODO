@@ -1,5 +1,0 @@
- * man pages
- * programming guide
- * stud and draw
- * error reporting system - currently there is no way to tell the program using libtinypoker 
-	about some syscall failures... dns lookup failures, malloc failures, etc

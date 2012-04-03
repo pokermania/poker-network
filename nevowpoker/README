@@ -1,5 +1,0 @@
-nevow based pokerclient test bed
-
-run with: twistd -noy myelement.tac
-
-and connect to: http://localhost:8080/

@@ -1,5 +1,0 @@
-The first releases will focus on Texas Hold'em because that is the
-poker variant the author is most interested in and that is the poker
-variant currently implemented in pokerd. The Internet Poker Protocol
-also supports 5 Card Draw and 7 Card Stud. Interested hackers should
-look into adding support for those games.
