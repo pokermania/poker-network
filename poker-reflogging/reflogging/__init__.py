@@ -2,6 +2,15 @@
 
 import logging
 
+class NullHandler(logging.Handler):
+    """needed because logging.NullHandler is only available from 2.7 on"""
+    def handle(self, record):
+        pass
+    def emit(self, record):
+        pass
+    def createLock(self):
+        self.lock = None
+
 class Logger(object):
     
     def __init__(self, name, parent=None, refs=[]):
@@ -13,7 +22,7 @@ class Logger(object):
         else:
             self._logger = logging.getLogger(name)
             # if there is no parent add the nullhandler
-            self._logger.addHandler(logging.NullHandler())
+            self._logger.addHandler(NullHandler())
 
         # refs are tuples containing: refname, object, repr_function
         # if return value of repr_function evals to False repr will not be added to log entry

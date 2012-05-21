@@ -1,3 +1,9 @@
+poker-reflogging (1.0.0-3) pokermania; urgency=low
+
+  * bd6854c NullHandler python 2.6 fix
+
+ -- Andor Goetzendorff <andor@pokermania.de>  Mon, 21 May 2012 12:55:00 +0200
+
 poker-reflogging (1.0.0-2) pokermania; urgency=low
 
   * now not empty
