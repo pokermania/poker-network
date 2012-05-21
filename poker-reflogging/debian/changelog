@@ -1,4 +1,10 @@
-poker-reflogging (1.0.0-1-1) pokermania; urgency=low
+poker-reflogging (1.0.0-2) pokermania; urgency=low
+
+  * now not empty
+
+ -- Andor Goetzendorff <andor@pokermania.de>  Mon, 21 May 2012 12:55:00 +0200
+
+poker-reflogging (1.0.0-1) pokermania; urgency=low
 
   * Initial release (Closes: #1)  
 
