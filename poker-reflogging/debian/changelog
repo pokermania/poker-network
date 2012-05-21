@@ -1,3 +1,9 @@
+poker-reflogging (1.0.0-4) pokermania; urgency=low
+
+  * made it compatible to python 2.6
+
+ -- Andor Goetzendorff <andor@pokermania.de>  Mon, 21 May 2012 16:10:00 +0200
+
 poker-reflogging (1.0.0-3) pokermania; urgency=low
 
   * bd6854c NullHandler python 2.6 fix
