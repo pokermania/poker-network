@@ -81,7 +81,7 @@ class _LogRecord(logging.LogRecord):
     
     def __init__(self, *arg, **kw):
         self.refs = arg[-1].get('refs', '[]')
-        super(_LogRecord, self).__init__(*arg[0:-1], **kw)
+        logging.LogRecord.__init__(self, *arg[0:-1], **kw)
 
 class _Logger(logging.getLoggerClass()):
 
