@@ -1,0 +1,13 @@
+Source: python-poker-reflogging
+Section: unknown
+Priority: extra
+Maintainer: Hannes <hannes@pokermania.de>
+Build-Depends: debhelper (>= 7), cdbs (>= 0.4), python-support
+Standards-Version: 3.8.2
+Homepage: http://github.com/pokermania/poker-network
+
+Package: python-poker-reflogging
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}
+Description: the reflogger
+ this is a package for one single python file..
