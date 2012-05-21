@@ -16,9 +16,11 @@ class Logger(object):
     def __init__(self, name, parent=None, refs=[]):
         if parent:
             if isinstance(parent, Logger):
-                self._logger = parent._logger.getChild(name)
+                #self._logger = parent._logger.getChild(name)
+                self._logger = logging.getLogger(".".join((parent._logger.name, name)))
             else:
-                self._logger = parent.getChild(name)
+                #self._logger = parent.getChild(name)
+                self._logger = logging.getLogger(".".join((parent.name, name)))
         else:
             self._logger = logging.getLogger(name)
             # if there is no parent add the nullhandler
