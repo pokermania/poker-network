@@ -16,10 +16,8 @@ class Logger(object):
     def __init__(self, name, parent=None, refs=[]):
         if parent:
             if isinstance(parent, Logger):
-                #self._logger = parent._logger.getChild(name)
                 self._logger = logging.getLogger(".".join((parent._logger.name, name)))
             else:
-                #self._logger = parent.getChild(name)
                 self._logger = logging.getLogger(".".join((parent.name, name)))
         else:
             self._logger = logging.getLogger(name)
@@ -110,7 +108,6 @@ class TwistedHandler(logging.Handler):
 
     def emit(self, record):
         for message in self.format(record).split('\n'):
-            #p.msg("[<Game 123>] \n\nasdaasddd", system='network.service', syslogPriority=50)
             self._log_publisher.msg(message, system=record.name, syslogPriority=record.levelno)
 
 logging.setLoggerClass(_Logger)
