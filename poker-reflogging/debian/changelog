@@ -1,3 +1,9 @@
+poker-reflogging (1.0.0-6) pokermania; urgency=low
+
+  * b2c20a5 reflogging: file not needed
+
+ -- Andor Goetzendorff <andor@pokermania.de>  Mon, 21 May 2012 17:00:00 +0200
+
 poker-reflogging (1.0.0-5) pokermania; urgency=low
 
   * fixed super in reflogging._LogRecord
