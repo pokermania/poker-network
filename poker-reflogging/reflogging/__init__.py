@@ -100,6 +100,16 @@ class SingleLineFormatter(logging.Formatter):
             ret.append(logging.Formatter.format(self, record))
         return "\n".join(ret)
 
+import syslog
+
+logging2syslog = {
+    logging.DEBUG: syslog.LOG_DEBUG,
+    logging.INFO: syslog.LOG_INFO,
+    logging.WARNING: syslog.LOG_WARNING,
+    logging.ERROR: syslog.LOG_ERR,
+    logging.CRITICAL: syslog.LOG_CRIT
+}
+
 class TwistedHandler(logging.Handler):
 
     def __init__(self, log_publisher):
@@ -108,6 +118,6 @@ class TwistedHandler(logging.Handler):
 
     def emit(self, record):
         for message in self.format(record).split('\n'):
-            self._log_publisher.msg(message, system=record.name, syslogPriority=record.levelno)
+            self._log_publisher.msg(message, system=record.name, syslogPriority=logging2syslog[record.levelno])
 
 logging.setLoggerClass(_Logger)
