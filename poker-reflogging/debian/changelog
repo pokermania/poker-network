@@ -1,3 +1,9 @@
+poker-reflogging (1.0.1-1) pokermania; urgency=low
+
+  * converted logging log levels to syslog log levels in TwistedHandler
+
+ -- Andor Goetzendorff <andor@pokermania.de>  Mon, 25 May 2012 14:40:00 +0200
+
 poker-reflogging (1.0.0-6) pokermania; urgency=low
 
   * b2c20a5 reflogging: file not needed
