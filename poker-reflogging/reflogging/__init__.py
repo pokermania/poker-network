@@ -33,16 +33,9 @@ class Logger(object):
             self.addRef(*ref)
 
     def _log(self, level, message, *arg, **kw):
-        refs = kw.get('refs', [])
-        if 'refs' in kw:
-            del kw['refs']
-        #
-        # calc ref string
-        ref_string = "".join("<%s %s>" % (n, f(o)) for n, o, f in (self._refs + refs) if f(o) != None)
-
-        #
-        # pass to python logging
-        kw.update({'extra':{'refs': ref_string}})
+        if 'extra' not in kw:
+            kw['extra'] = {}
+        kw['extra']['_refs'] = self._refs
         self._logger.log(level, message, *arg, **kw)
 
     def addRef(self, name, obj, func):
@@ -78,7 +71,8 @@ class Logger(object):
 class _LogRecord(logging.LogRecord):
     
     def __init__(self, *arg, **kw):
-        self.refs = arg[-1].get('refs', '[]')
+        self._refs = arg[-1].get('_refs', [])
+        self.refs = ""
         logging.LogRecord.__init__(self, *arg[0:-1], **kw)
 
 class _Logger(logging.getLoggerClass()):
@@ -89,6 +83,11 @@ class _Logger(logging.getLoggerClass()):
 class SingleLineFormatter(logging.Formatter):
 
     def format(self, record):
+        if hasattr(record, '_refs'):
+            for name, obj, func in record._refs:
+                ret = func(obj)
+                if ret:
+                    record.refs += "<%s %s>" % (name, ret)
         ret = []
         try:
             message = record.msg % record.args
