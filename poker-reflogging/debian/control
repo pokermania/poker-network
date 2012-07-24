@@ -2,13 +2,13 @@ Source: poker-reflogging
 Section: python
 Priority: optional
 Maintainer: Hannes <hannes@pokermania.de>
-Build-Depends: debhelper (>= 7), cdbs (>= 0.4), python-support
-Standards-Version: 3.8.2
+Build-Depends: debhelper, python-all (>= 2.6.6)
+Standards-Version: 3.9.1
 Homepage: http://github.com/pokermania/poker-network
 
 Package: python-poker-reflogging
 Section: python
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}
+Depends: ${misc:Depends}, python-all (>= 2.6.6)
 Description: the reflogger
  this is a package for one single python file..
