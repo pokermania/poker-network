@@ -1,5 +1,15 @@
 ###########################################################################
 # Generally ignored glob matches
+config.json
+poker-network/debian/*.substvars
+poker-network/debian/*/
+*/.coverage
+/*.changes
+/*.tar.gz
+/*.dsc
+*.deb
+*.debhelper
+*.debhelper.log
 *.[oa]
 *.pyc
 *.loT
@@ -23,6 +33,7 @@ poker-network/Makefile
 poker-network/Makefile.in
 poker-network/aclocal.m4
 poker-network/autom4te.cache/
+poker-network/build
 poker-network/conf/poker.bot.xml
 poker-network/conf/poker.client.xml
 poker-network/conf/poker.server.xml
@@ -160,6 +171,8 @@ poker-network/tests/.deps/
 poker-network/tests/Makefile
 poker-network/tests/Makefile.in
 poker-network/tests/conf/poker2d.xml
+poker-network/tests/conf/poker.bot.xml
+poker-network/tests/conf/poker.server.xml
 poker-network/tests/run
 poker-network/tests/test-actionscript.py
 poker-network/tests/test-clientserver.py
