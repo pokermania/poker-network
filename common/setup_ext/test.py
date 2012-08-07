@@ -18,11 +18,10 @@ class TestCommand(Command):
         """
         Finds all the tests modules in tests/, and runs them.
         """
-        unittest.installHandler()
         for mod_name, mod in tests.__dict__.items():
             if mod_name.startswith('test_'):
                 print "\n"+mod_name
-                runner = unittest.TextTestRunner(verbosity=1, failfast=True)
+                runner = unittest.TextTestRunner(verbosity=1)
                 result = runner.run(mod.GetTestSuite())
                 if len(result.failures) > 0 or len(result.errors) > 0:
                     sys.exit(1)
