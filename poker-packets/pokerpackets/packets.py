@@ -25,8 +25,8 @@
 from struct import pack, unpack, calcsize
 from copy import deepcopy
 
-from pokernetwork import log as network_log
-log = network_log.getChild('packets')
+from pokerpackets import log as packets_log
+log = packets_log.getChild('packets')
 
 PacketFactory = {}
 PacketNames = {}

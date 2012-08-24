@@ -214,7 +214,7 @@ behaviour associated to each packet.
 
 from struct import pack, unpack, calcsize
 from types import IntType, LongType
-from pokernetwork.packets import *
+from packets import *
 
 ########################################
 

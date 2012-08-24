@@ -30,8 +30,8 @@ from struct import pack
 
 import testpackets
 
-from pokernetwork import packets
-from pokernetwork import pokerclientpackets
+from pokerpackets import packets
+from pokerpackets import clientpackets
 
 class PokerClientPacketsTestCase(testpackets.PacketsTestBase):
 
@@ -49,13 +49,13 @@ class PokerClientPacketsTestCase(testpackets.PacketsTestBase):
 
     #--------------------------------------------------------------    
     def test_packets(self):
-        for type in pokerclientpackets._TYPES:
-            if pokerclientpackets.PacketFactory.has_key(type):
-                self.packetCheck(type = pokerclientpackets.PacketFactory[type])
+        for type in clientpackets._TYPES:
+            if clientpackets.PacketFactory.has_key(type):
+                self.packetCheck(type = clientpackets.PacketFactory[type])
 
     #--------------------------------------------------------------    
     def test_chips2amount(self):
-        self.assertEqual(10, pokerclientpackets.chips2amount([1, 2, 4, 2]))
+        self.assertEqual(10, clientpackets.chips2amount([1, 2, 4, 2]))
 
     def defineTestPacket(self):
         

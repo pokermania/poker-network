@@ -24,59 +24,59 @@ from os import path
 TESTS_PATH = path.dirname(path.realpath(__file__))
 sys.path.insert(0, path.join(TESTS_PATH, ".."))
 
-from pokernetwork import pokerpackets
+from pokerpackets import networkpackets
 import testpackets
 
 class PokerPacketsTestCase(testpackets.PacketsTestBase):
 
     @staticmethod
     def polute(packet):
-        if packet.type == pokerpackets.PACKET_POKER_USER_INFO:
+        if packet.type == networkpackets.PACKET_POKER_USER_INFO:
             packet.money = {5: (1,2,3), 10: (10,11,12)}
         else:
             testpackets.PacketsTestBase.polute(packet)
         
     def packUnpack(self, packet, field):
         packed = packet.pack()
-        other_packet = pokerpackets.PacketFactory[packet.type]()
+        other_packet = networkpackets.PacketFactory[packet.type]()
         other_packet.unpack(packed)
         self.assertEqual(packed, other_packet.pack())
         self.assertEqual(packet.__dict__[field], other_packet.__dict__[field])
-        info_packet = pokerpackets.PacketFactory[packet.type]()
+        info_packet = networkpackets.PacketFactory[packet.type]()
         info_packet.infoUnpack(packed);
         self.assertEqual(packed, info_packet.infoPack())
         
     #--------------------------------------------------------------    
     def test_all(self):
         verbose = int(os.environ.get('VERBOSE_T', '-1'))
-        for type_index in pokerpackets._TYPES:
-            if pokerpackets.PacketFactory.has_key(type_index):
+        for type_index in networkpackets._TYPES:
+            if networkpackets.PacketFactory.has_key(type_index):
                 if verbose > 0:
-                    print pokerpackets.PacketNames[type_index]
-                self.packetCheck(type = pokerpackets.PacketFactory[type_index])
+                    print networkpackets.PacketNames[type_index]
+                self.packetCheck(type = networkpackets.PacketFactory[type_index])
 
     #--------------------------------------------------------------    
     def test_PacketPokerPlayerArrive(self):
-        packet = pokerpackets.PacketPokerPlayerArrive(seat = 1)
+        packet = networkpackets.PacketPokerPlayerArrive(seat = 1)
         self.packUnpack(packet, 'seat')
-        packet = pokerpackets.PacketPokerPlayerArrive(blind = False)
+        packet = networkpackets.PacketPokerPlayerArrive(blind = False)
         self.packUnpack(packet, 'blind')
 
     #--------------------------------------------------------------    
     def test_PacketPokerUserInfo(self):
-        packet = pokerpackets.PacketPokerUserInfo(money = {1: (2, 3, 4), 10: (20, 30, 40)})
+        packet = networkpackets.PacketPokerUserInfo(money = {1: (2, 3, 4), 10: (20, 30, 40)})
         self.packUnpack(packet, 'money')
         self.failUnless("(20, 30, 40)" in str(packet))
 
     #--------------------------------------------------------------    
     def test_PacketPokerPlayersList(self):
-        packet = pokerpackets.PacketPokerPlayersList(players = [('name', 10, 20)])
+        packet = networkpackets.PacketPokerPlayersList(players = [('name', 10, 20)])
         self.packUnpack(packet, 'players')
         self.failUnless("('name', 10, 20)" in str(packet))
         
     #--------------------------------------------------------------    
     def test_PacketPokerMoneyTransfert(self):
-        packet = pokerpackets.PacketPokerCashIn(
+        packet = networkpackets.PacketPokerCashIn(
             url='url',
             name='name',
             bserial=10,
@@ -87,7 +87,7 @@ class PokerPacketsTestCase(testpackets.PacketsTestBase):
 
     #--------------------------------------------------------------    
     def test_verifyfactory(self):
-        from pokernetwork.pokerpackets import PacketNames, PacketFactory
+        from pokerpackets.networkpackets import PacketNames, PacketFactory
         for packid in PacketNames.keys():
             self.failUnless(PacketFactory.has_key(packid))
             self.assertEquals(PacketFactory[packid].type, packid)
@@ -95,16 +95,16 @@ class PokerPacketsTestCase(testpackets.PacketsTestBase):
             self.failUnless(PacketNames.has_key(packid))
     #--------------------------------------------------------------    
     def test_PacketPokerTable(self):
-        packet = pokerpackets.PacketPokerTable(tourney_serial = 2)
+        packet = networkpackets.PacketPokerTable(tourney_serial = 2)
         self.failUnless("tourney_serial = 2" in str(packet))
     #--------------------------------------------------------------    
     def test_PacketPokerSetLocale(self):
-        packet = pokerpackets.PacketPokerSetLocale(serial = 42, locale = "fr_FR", game_id = 100)
+        packet = networkpackets.PacketPokerSetLocale(serial = 42, locale = "fr_FR", game_id = 100)
         self.packUnpack(packet, 'game_id')
         self.failUnless("100" in str(packet))
 #--------------------------------------------------------------    
     def test_verifyfactory(self):
-        from pokernetwork.pokerpackets import PacketNames, PacketFactory
+        from pokerpackets.networkpackets import PacketNames, PacketFactory
         for packid in PacketNames.keys():
             self.failUnless(PacketFactory.has_key(packid))
             self.assertEquals(PacketFactory[packid].type, packid)

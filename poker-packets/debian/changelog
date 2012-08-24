@@ -1,0 +1,5 @@
+poker-packets (2.2.0-1) pokermania; urgency=low
+
+  * seperated poker-packets from pokernetwork
+
+ -- Andor Goetzendorff <andor@pokermania.de>  Fri, 24 Aug 2012 14:40:00 +0200

@@ -29,7 +29,7 @@ from struct import pack
 
 import testpackets
 
-from pokernetwork import packets
+from pokerpackets import packets
 
 class PacketsTestCase(testpackets.PacketsTestBase):
     

@@ -26,8 +26,8 @@
 #
 from struct import pack, unpack
 
-from pokernetwork.packets import Packet
-from pokernetwork.pokerpackets import *
+from packets import Packet
+from networkpackets import *
 
 def chips2amount(chips):
     amount = 0
