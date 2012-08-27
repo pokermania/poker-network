@@ -66,13 +66,13 @@ class PokerPacketsTestCase(testpackets.PacketsTestBase):
     def test_PacketPokerUserInfo(self):
         packet = networkpackets.PacketPokerUserInfo(money = {1: (2, 3, 4), 10: (20, 30, 40)})
         self.packUnpack(packet, 'money')
-        self.failUnless("(20, 30, 40)" in str(packet))
+        self.assertTrue("(20, 30, 40)" in str(packet))
 
     #--------------------------------------------------------------    
     def test_PacketPokerPlayersList(self):
         packet = networkpackets.PacketPokerPlayersList(players = [('name', 10, 20)])
         self.packUnpack(packet, 'players')
-        self.failUnless("('name', 10, 20)" in str(packet))
+        self.assertTrue("('name', 10, 20)" in str(packet))
         
     #--------------------------------------------------------------    
     def test_PacketPokerMoneyTransfert(self):
@@ -83,35 +83,25 @@ class PokerPacketsTestCase(testpackets.PacketsTestBase):
             value=20
         )
         self.packUnpack(packet, 'name')
-        self.failUnless("name = name" in str(packet))        
+        self.assertTrue("name = name" in str(packet))        
 
     #--------------------------------------------------------------    
     def test_verifyfactory(self):
         from pokerpackets.networkpackets import PacketNames, PacketFactory
         for packid in PacketNames.keys():
-            self.failUnless(PacketFactory.has_key(packid))
+            self.assertTrue(PacketFactory.has_key(packid),"%d not found" % packid)
             self.assertEquals(PacketFactory[packid].type, packid)
         for packid in PacketFactory.keys():
-            self.failUnless(PacketNames.has_key(packid))
+            self.assertTrue(PacketNames.has_key(packid))
     #--------------------------------------------------------------    
     def test_PacketPokerTable(self):
         packet = networkpackets.PacketPokerTable(tourney_serial = 2)
-        self.failUnless("tourney_serial = 2" in str(packet))
+        self.assertTrue("tourney_serial = 2" in str(packet))
     #--------------------------------------------------------------    
     def test_PacketPokerSetLocale(self):
         packet = networkpackets.PacketPokerSetLocale(serial = 42, locale = "fr_FR", game_id = 100)
         self.packUnpack(packet, 'game_id')
-        self.failUnless("100" in str(packet))
-#--------------------------------------------------------------    
-    def test_verifyfactory(self):
-        from pokerpackets.networkpackets import PacketNames, PacketFactory
-        for packid in PacketNames.keys():
-            self.failUnless(PacketFactory.has_key(packid))
-            self.assertEquals(PacketFactory[packid].type, packid)
-        for packid in PacketFactory.keys():
-            self.failUnless(PacketNames.has_key(packid))
-                            
-
+        self.assertTrue("100" in str(packet))
 
 #--------------------------------------------------------------
 def GetTestSuite():

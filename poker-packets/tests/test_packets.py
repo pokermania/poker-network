@@ -64,6 +64,7 @@ class PacketsTestCase(testpackets.PacketsTestBase):
                 packets.PacketList.__init__(self, packets = [packets.Packet()])
         self.packetCheck(type = TestPacketList)
 
+    def test_fieldlist(self):
         packets.PacketNames[253] = 'TestPacketFieldList'
         
         class TestPacketFieldList(packets.Packet):
