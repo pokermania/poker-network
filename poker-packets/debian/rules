@@ -9,6 +9,7 @@ PYTHON2=$(shell pyversions -vr)
 	dh $@ --buildsystem=python_distutils --with=python2
 
 override_dh_auto_test:
-	$(COVERAGE) run setup.py test
-	$(COVERAGE) report reflogging/*.py
+	$(COVERAGE) -x setup.py test
+	$(COVERAGE) -r pokerpackets/*.py
+	rm .coverage
 
