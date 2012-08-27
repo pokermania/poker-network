@@ -1,3 +1,9 @@
+poker-packets (2.2.0-2) pokermania; urgency=low
+
+  * d569b83 changes in setup.py
+
+ -- Andor Goetzendorff <andor@pokermania.de>  Mon, 27 Aug 2012 14:40:00 +0200
+
 poker-packets (2.2.0-1) pokermania; urgency=low
 
   * seperated poker-packets from pokernetwork
