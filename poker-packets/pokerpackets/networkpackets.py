@@ -2645,6 +2645,7 @@ table_serial: integer uniquely identifying a game.
     DOES_NOT_EXIST = 1
     WRONG_STATE = 2
     NOT_BAILOR = 3
+    NOT_ENOUGH_USERS = 4
     
     info = PacketSerial.info + (
             ('tourney_serial', 0, 'I'),
