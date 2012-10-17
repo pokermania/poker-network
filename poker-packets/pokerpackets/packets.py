@@ -712,7 +712,7 @@ code: machine readable code matching the human readable message
       the list of which can be found in the PacketPokerSetAccount
       packet definition
 other_type: the type of the packet that triggered the authentication
-            error, i.e. PACKET_LOGIN
+            error, i.e. :class:`PACKET_LOGIN <pokerpackets.packets.PacketLogin>`
     """
 
 Packet.infoDeclare(globals(), PacketAuthRefused, Packet, "AUTH_REFUSED", 9) # 9 #

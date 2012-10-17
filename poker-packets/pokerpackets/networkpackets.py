@@ -224,8 +224,8 @@ Semantics: attribution of the seats of a game to the players.
 
 Context: packet sent at least once per turn. It is guaranteed
 that no player engaged in a turn (i.e. who shows in a
- PACKET_POKER_IN_GAME packet) will leave their seat before
-the turn is over (i.e. before packet  PACKET_POKER_STATE packet
+ :class:`PACKET_POKER_IN_GAME <pokerpackets.networkpackets.PacketPokerInGame>` packet) will leave their seat before
+the turn is over (i.e. before packet  :class:`PACKET_POKER_STATE <pokerpackets.networkpackets.PacketPokerState>` packet
 with string == "end" is received).
 It is guaranteed that all PACKET_PLAYER_ARRIVE packets for
 all players listed in the "seats" have already been sent
@@ -301,7 +301,7 @@ in which case the "serial" field does not contain a
 serial number but a position. This packet is discarded
 when other packets are inferred. Inferred by the client
 during all other betting rounds.
-A PACKET_POKER_POSITION with serial 0 is inferred by the
+A :class:`PACKET_POKER_POSITION <pokerpackets.networkpackets.PacketPokerPosition>` with serial 0 is inferred by the
 client at the end of each turn.
 
 serial: integer uniquely identifying a player.
@@ -368,10 +368,10 @@ Direction: server  => client
 Context: the sequence of states is guaranteed, i.e. "turn" will never be
 sent before "flop". However, there is no guarantee that the next state
 will ever be sent. For instance, if a holdem game is canceled
-(i.e. PACKET_POKER_CANCELED is sent) because no player is willing to pay
+(i.e. :class:`PACKET_POKER_CANCELED <pokerpackets.networkpackets.PacketPokerCanceled>` is sent) because no player is willing to pay
 the blinds, the client must know that it will never receive the
 packet announcing the "pre-flop" state. The "end" state is not
-sent when a game is canceled (i.e. PACKET_POKER_CANCELED is sent).
+sent when a game is canceled (i.e. :class:`PACKET_POKER_CANCELED <pokerpackets.networkpackets.PacketPokerCanceled>` is sent).
 
 serial: the unique number associated to the user.
 game_id: integer uniquely identifying a game.
@@ -392,40 +392,40 @@ the turn for game "game_id" to display the showdown.
 
 Context: this packet is sent even when there is no showdown, i.e. when all
 other players folded. However, it is not sent if the game is canceled
-(i.e. PACKET_POKER_CANCELED is sent). It is sent after
-the PACKET_POKER_STATE packet announcing the "end" state and after all
+(i.e. :class:`PACKET_POKER_CANCELED <pokerpackets.networkpackets.PacketPokerCanceled>` is sent). It is sent after
+the :class:`PACKET_POKER_STATE <pokerpackets.networkpackets.PacketPokerState>` packet announcing the "end" state and after all
 necessary information is sent to explain the
 showdown (i.e. the value of the losing cards). The client may deduce
 the serials of players who won from previous packets and use the
 packet information for checking purposes only.
 
-The client infers the following packets from PACKET_POKER_WIN:
+The client infers the following packets from :class:`PACKET_POKER_WIN <pokerpackets.networkpackets.PacketPokerWin>`:
 
- PACKET_POKER_PLAYER_NO_CARDS
- PACKET_POKER_BEST_CARDS
- PACKET_POKER_CHIPS_POT_MERGE
+ :class:`PACKET_POKER_PLAYER_NO_CARDS <pokerpackets.clientpackets.PacketPokerPlayerNoCards>`
+ :class:`PACKET_POKER_BEST_CARDS <pokerpackets.clientpackets.PacketPokerBestCards>`
+ :class:`PACKET_POKER_CHIPS_POT_MERGE <pokerpackets.clientpackets.PacketPokerChipsPotMerge>`
  PACKET_POKER_CHIPS_POT2PLAYER
- PACKET_POKER_POT_CHIPS
- PACKET_POKER_PLAYER_CHIPS
+ :class:`PACKET_POKER_POT_CHIPS <pokerpackets.clientpackets.PacketPokerPotChips>`
+ :class:`PACKET_POKER_PLAYER_CHIPS <pokerpackets.networkpackets.PacketPokerPlayerChips>`
 
 They roughly match the following logic. Some players mucked their
-losing cards (PACKET_POKER_PLAYER_NO_CARDS). The winners show their
+losing cards (:class:`PACKET_POKER_PLAYER_NO_CARDS <pokerpackets.clientpackets.PacketPokerPlayerNoCards>`). The winners show their
 best five card combination (high and/or low)
- PACKET_POKER_BEST_CARDS. If there are split pots and a player wins
+ :class:`PACKET_POKER_BEST_CARDS <pokerpackets.clientpackets.PacketPokerBestCards>`. If there are split pots and a player wins
 more than one pot, merge the chips together before giving them to the
-winner (PACKET_POKER_CHIPS_POT_MERGE). Give each player the part of
+winner (:class:`PACKET_POKER_CHIPS_POT_MERGE <pokerpackets.clientpackets.PacketPokerChipsPotMerge>`). Give each player the part of
 the pot they won (PACKET_POKER_CHIPS_POT2PLAYER): there may be more
 than one packet for each player if more than one pot is involved. When
 the distribution is finished all pots are empty
-(PACKET_POKER_POT_CHIPS) and each player has a new amount of chips in
-their stack (PACKET_POKER_PLAYER_CHIPS). These last two packets make
+(:class:`PACKET_POKER_POT_CHIPS <pokerpackets.clientpackets.PacketPokerPotChips>`) and each player has a new amount of chips in
+their stack (:class:`PACKET_POKER_PLAYER_CHIPS <pokerpackets.networkpackets.PacketPokerPlayerChips>`). These last two packets make
 it possible for the client to ignore the chips movements and only deal
 with the final chips amounts.
 
-The PACKET_POKER_BEST_CARDS is only infered for actual winners. Not
+The :class:`PACKET_POKER_BEST_CARDS <pokerpackets.clientpackets.PacketPokerBestCards>` is only infered for actual winners. Not
 for players who participated in the showdown but lost. The cards of
-these losers are known from a PACKET_POKER_CARDS sent before the
- PACKET_POKER_WIN.
+these losers are known from a :class:`PACKET_POKER_CARDS <pokerpackets.networkpackets.PacketPokerCards>` sent before the
+ :class:`PACKET_POKER_WIN <pokerpackets.networkpackets.PacketPokerWin>`.
 
 Direction: server  => client
 
@@ -577,10 +577,10 @@ tournament.
 Direction: server  => client
 
 Context: this packet is sent exactly once per turn, after the
- PACKET_POKER_DEALER and PACKET_POKER_IN_GAME packets relevant to
+ :class:`PACKET_POKER_DEALER <pokerpackets.networkpackets.PacketPokerDealer>` and :class:`PACKET_POKER_IN_GAME <pokerpackets.networkpackets.PacketPokerInGame>` packets relevant to
 the hand to come.
-A PACKET_POKER_CHIPS_POT_RESET packet is inferred after this packet.
-A PACKET_POKER_PLAYER_CHIPS packet is inferred for each player sit after
+A :class:`PACKET_POKER_CHIPS_POT_RESET <pokerpackets.clientpackets.PacketPokerChipsPotReset>` packet is inferred after this packet.
+A :class:`PACKET_POKER_PLAYER_CHIPS <pokerpackets.networkpackets.PacketPokerPlayerChips>` packet is inferred for each player sit after
 this packet.
 
 hands_count: total number of hands dealt for this game.
@@ -607,12 +607,12 @@ Semantics: the list of "players" serials who are participating
 in the hand to come or the current hand for the game "game_id".
 
 Context: this packet is sent before the hand starts (i.e. before
-the PACKET_POKER_START packet is sent). It may also be sent before
-the end of the "blindAnte" round (i.e. before a PACKET_POKER_STATE
+the :class:`PACKET_POKER_START <pokerpackets.networkpackets.PacketPokerStart>` packet is sent). It may also be sent before
+the end of the "blindAnte" round (i.e. before a :class:`PACKET_POKER_STATE <pokerpackets.networkpackets.PacketPokerState>`
 packet changing the state "blindAnte" to something else is sent).
 The later case happen when a player refuses to pay the blind or
 the ante. When the hand is running and is past the "blindAnte" round,
-no PACKET_POKER_IN_GAME packet is sent.
+no :class:`PACKET_POKER_IN_GAME <pokerpackets.networkpackets.PacketPokerInGame>` packet is sent.
 
 Direction: server => client
 
@@ -647,7 +647,7 @@ game "game_id".
 
 Direction: server <=> client
 
-Context: the client infers a PACKET_POKER_BET_LIMIT packet each
+Context: the client infers a :class:`PACKET_POKER_BET_LIMIT <pokerpackets.clientpackets.PacketPokerBetLimit>` packet each
 time the position changes.
 
 amount: the number of chips for the raise. A value of all 0 means the lowest possible raise.
@@ -696,19 +696,19 @@ PacketPokerTableJoin():
   (0) In the case that the join is completely successful, or if the player
       had already joined the table, the following packets are sent:
 
-          PACKET_POKER_TABLE
-          PACKET_POKER_BATCH_MODE
+          :class:`PACKET_POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>`
+          :class:`PACKET_POKER_BATCH_MODE <pokerpackets.networkpackets.PacketPokerBatchMode>`
           for each player in the game:
-               PACKET_POKER_PLAYER_ARRIVE
+               :class:`PACKET_POKER_PLAYER_ARRIVE <pokerpackets.networkpackets.PacketPokerPlayerArrive>`
           if the player is playing:
-                PACKET_POKER_PLAYER_CHIPS
+                :class:`PACKET_POKER_PLAYER_CHIPS <pokerpackets.networkpackets.PacketPokerPlayerChips>`
           if the player is sit:
-                PACKET_POKER_SIT
-          PACKET_POKER_SEATS
+                :class:`PACKET_POKER_SIT <pokerpackets.networkpackets.PacketPokerSit>`
+          :class:`PACKET_POKER_SEATS <pokerpackets.networkpackets.PacketPokerSeats>`
           if the game is running:
                 the exact packet sequence that lead to the current state
                 of the game. Varies according to the game.
-          PACKET_POKER_STREAM_MODE
+          :class:`PACKET_POKER_STREAM_MODE <pokerpackets.networkpackets.PacketPokerStreamMode>`
 
       Note clearly that if the player had already previously joined the
       table, the packets above will be sent as if the player just joined.
@@ -723,11 +723,11 @@ PacketPokerTableJoin():
         (a) the following packet (recommended way of testing for failure):
             PacketPokerError(code      = PacketPokerTableJoin.FULL,
                             message   = "This server has too many seated players and observers.",
-                           other_type = PACKET_POKER_TABLE_JOIN,
+                           other_type = :class:`PACKET_POKER_TABLE_JOIN <pokerpackets.networkpackets.PacketPokerTableJoin>`,
                            serial     = <player's serial id>,
                            game_id    = <id of the table>)
 
-        (b) a packet, PACKET_POKER_TABLE, with serial 0 will be sent.  It
+        (b) a packet, :class:`PACKET_POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>`, with serial 0 will be sent.  It
             will contain no meaningful information.  (THIS BEHAVIOR IS
             DEPRECATED, and is left only for older clients.
             New clients should not rely on this behavior.)
@@ -740,11 +740,11 @@ PacketPokerTableJoin():
            PacketPokerError(code      = PacketPokerTableJoin.GENERAL_FAILURE,
                             message   = <some string of non-zero length, for use
                                         in displaying to the user>,
-                           other_type = PACKET_POKER_TABLE_JOIN,
+                           other_type = :class:`PACKET_POKER_TABLE_JOIN <pokerpackets.networkpackets.PacketPokerTableJoin>`,
                            serial     = <player's serial id>,
                            game_id    = 0)
 
-       (b) a packet, PACKET_POKER_TABLE, with serial 0 will be sent.  It
+       (b) a packet, :class:`PACKET_POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>`, with serial 0 will be sent.  It
            will contain no meaningful information.  (THIS BEHAVIOR IS
            DEPRECATED, and is left only for older clients.
            New clients should not rely on this behavior.)
@@ -765,7 +765,7 @@ Packet.infoDeclare(globals(), PacketPokerTableJoin, Packet, "POKER_TABLE_JOIN", 
 class PacketPokerTableSelect(PacketString):
     """\
 Semantics: request the list of tables matching the "string" constraint.
-The answer is a possibly empty PACKET_POKER_TABLE_LIST packet.
+The answer is a possibly empty :class:`PACKET_POKER_TABLE_LIST <pokerpackets.networkpackets.PacketPokerTableList>` packet.
 
 Direction: server <=  client
 
@@ -831,7 +831,7 @@ average_pot: the average amount put in the pot in the past few minutes.
 percent_flop: the average percentage of players after the flop in the past
               few minutes.
 players: the number of players who joined the table and are seated
-observers: the number of players who joined (as in PACKET_POKER_TABLE_JOIN)
+observers: the number of players who joined (as in :class:`PACKET_POKER_TABLE_JOIN <pokerpackets.networkpackets.PacketPokerTableJoin>`)
            the table but are not seated.
 waiting: the number of players in the waiting list.
 player_timeout: the number of seconds after which a player in position is forced to
@@ -879,12 +879,12 @@ Packet.infoDeclare(globals(),PacketPokerTable, Packet, "POKER_TABLE", 73) # 73 #
 
 class PacketPokerTableList(PacketList):
     """\
-Semantics: a list of PACKET_POKER_TABLE packets sent as a
+Semantics: a list of :class:`PACKET_POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>` packets sent as a
 response to a PACKET_POKER_SELECT request.
 
 Direction: server  => client
 
-packets: a list of PACKET_POKER_TABLE packets.
+packets: a list of :class:`PACKET_POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>` packets.
 """
 
     info = PacketList.info + (
@@ -903,10 +903,10 @@ the game "game_id".
 Direction: server <=> client
 
 Context: this packet must occur after getting a seat for the
-game (i.e. a PACKET_POKER_SEAT is honored by the server). A
-number of PACKET_POKER_SIT packets are inferred from the
- PACKET_POKER_IN_GAME packet. The server will broadcast to
-all players and observers the PACKET_POKER_SIT in case of
+game (i.e. a :class:`PACKET_POKER_SEAT <pokerpackets.networkpackets.PacketPokerSeat>` is honored by the server). A
+number of :class:`PACKET_POKER_SIT <pokerpackets.networkpackets.PacketPokerSit>` packets are inferred from the
+ :class:`PACKET_POKER_IN_GAME <pokerpackets.networkpackets.PacketPokerInGame>` packet. The server will broadcast to
+all players and observers the :class:`PACKET_POKER_SIT <pokerpackets.networkpackets.PacketPokerSit>` in case of
 success. The server will not send anything back if an error
 occurs.
 
@@ -962,14 +962,14 @@ Semantics: the player "serial" is seated on the seat "seat"
 in the game "game_id". When a client asks for seat 255,
 it instructs the server to chose the first seat available.
 If the server refuses a request, it answers to the
-requestor with a PACKET_POKER_SEAT packet with a seat field
+requestor with a :class:`PACKET_POKER_SEAT <pokerpackets.networkpackets.PacketPokerSeat>` packet with a seat field
 set to 255.
 
 Direction: server <=> client
 
-Context: the player must join the game (PACKET_POKER_TABLE_JOIN)
+Context: the player must join the game (:class:`PACKET_POKER_TABLE_JOIN <pokerpackets.networkpackets.PacketPokerTableJoin>`)
 before issuing a request for a seat. If the request is a success,
-the server will send a PACKET_POKER_PLAYER_ARRIVE and a
+the server will send a :class:`PACKET_POKER_PLAYER_ARRIVE <pokerpackets.networkpackets.PacketPokerPlayerArrive>` and a
  PACKET_POKER_TABLE_SEATS packet.
 
 seat: a seat number in the interval [0,9] or 255 for an invalid seat.
@@ -993,7 +993,7 @@ seated at sit-in in the new game.
 Direction: server  => client
 
 Context: this packet is equivalent to a PACKET_POKER_LEAVE immediately
-followed by a PACKET_POKER_JOIN, a PACKET_POKER_SEAT and a PACKET_POKER_SIT
+followed by a PACKET_POKER_JOIN, a :class:`PACKET_POKER_SEAT <pokerpackets.networkpackets.PacketPokerSeat>` and a :class:`PACKET_POKER_SIT <pokerpackets.networkpackets.PacketPokerSit>`
 without the race conditions that would occur if using multiple packets.
 
 serial: integer uniquely identifying a player.
@@ -1035,15 +1035,15 @@ is now sit out, i.e. not willing to participate in the game.
 
 Direction: server <=> client
 
-Context: if the game is not running (i.e. not between PACKET_POKER_START
-packet and a PACKET_POKER_STATE with state == "end" or a PACKET_POKER_CANCELED )
-or still in the blind / ante phase (i.e. the last PACKET_POKER_STATE was
+Context: if the game is not running (i.e. not between :class:`PACKET_POKER_START <pokerpackets.networkpackets.PacketPokerStart>`
+packet and a :class:`PACKET_POKER_STATE <pokerpackets.networkpackets.PacketPokerState>` with state == "end" or a :class:`PACKET_POKER_CANCELED <pokerpackets.networkpackets.PacketPokerCanceled>` )
+or still in the blind / ante phase (i.e. the last :class:`PACKET_POKER_STATE <pokerpackets.networkpackets.PacketPokerState>` was
 state == "blindAnte"), the server honors the request immediately and broadcasts the packet
 to all the players watching or participating in the game. If the game
 is running and is not in the blind / ante phase, the request is
-interpreted as a will to fold (equivalent to PACKET_POKER_FOLD) when
+interpreted as a will to fold (equivalent to :class:`PACKET_POKER_FOLD <pokerpackets.networkpackets.PacketPokerFold>`) when
 the player comes in position and to sit out when the game ends
-(i.e. the PACKET_POKER_SIT_OUT is postponed to the end of the game).
+(i.e. the :class:`PACKET_POKER_SIT_OUT <pokerpackets.networkpackets.PacketPokerSitOut>` is postponed to the end of the game).
 
 serial: integer uniquely identifying a player.
 game_id: integer uniquely identifying a game.
@@ -1078,10 +1078,10 @@ player bankroll or betting structure limits).
 
 Direction: server <=  client.
 
-Context: this packet must occur after a successfull PACKET_POKER_SEAT
-and before a PACKET_POKER_SIT for the same player. The minimum/maximum
+Context: this packet must occur after a successfull :class:`PACKET_POKER_SEAT <pokerpackets.networkpackets.PacketPokerSeat>`
+and before a :class:`PACKET_POKER_SIT <pokerpackets.networkpackets.PacketPokerSit>` for the same player. The minimum/maximum
 buy in are determined by the betting structure of the game, as
-specified in the PACKET_POKER_TABLE packet.
+specified in the :class:`PACKET_POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>` packet.
 
 amount: integer specifying the amount to bring to the game.
 serial: integer uniquely identifying a player.
@@ -1102,9 +1102,9 @@ player bankroll or betting structure limits).
 
 Direction: server <=  client.
 
-Context: this packet must occur after a successfull PACKET_POKER_BUY_IN
+Context: this packet must occur after a successfull :class:`PACKET_POKER_BUY_IN <pokerpackets.networkpackets.PacketPokerBuyIn>`
 The minimum/maximum rebuy are determined by the betting structure of
-the game, as specified in the PACKET_POKER_TABLE packet. The player
+the game, as specified in the :class:`PACKET_POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>` packet. The player
 may rebuy at any moment if he has less than the maximum amount of money
 allowed by the betting structure.
 
@@ -1178,8 +1178,8 @@ is provided.
 Direction: server  => client
 
 Context: this packet is the server answer to successfull
- PACKET_POKER_SEAT request. The actual seat allocated to the player
-will be specified in the next PACKET_POKER_SEATS packet.
+ :class:`PACKET_POKER_SEAT <pokerpackets.networkpackets.PacketPokerSeat>` request. The actual seat allocated to the player
+will be specified in the next :class:`PACKET_POKER_SEATS <pokerpackets.networkpackets.PacketPokerSeats>` packet.
 
 name: login name of the player.
 outfit: name of the player outfit, usually referring to the organization he belongs
@@ -1215,13 +1215,13 @@ Return slice of the matching hands that are in the range
 Direction: server <=  client
 
 Context: the answer of the server to this query is a
- PACKET_POKER_HAND_LIST packet.
+ :class:`PACKET_POKER_HAND_LIST <pokerpackets.networkpackets.PacketPokerHandList>` packet.
 
 string: a valid SQL WHERE expression on the hands table. The
 available fields are "name" for the symbolic name of the hand,
 "description" for the python expression describing the hand, "serial"
 for the unique identifier of the hand also known as the hand_serial
-in the PACKET_POKER_START packet.
+in the :class:`PACKET_POKER_START <pokerpackets.networkpackets.PacketPokerStart>` packet.
 start: index of the first matching hand
 count: number of matching hands to return starting from start
 serial: integer uniquely identifying a player.
@@ -1244,7 +1244,7 @@ Semantics: a list of hand serials known to the server.
 
 Direction: server  => client
 
-Context: reply to the PACKET_POKER_HAND_SELECT packet.
+Context: reply to the :class:`PACKET_POKER_HAND_SELECT <pokerpackets.networkpackets.PacketPokerHandSelect>` packet.
 
 hands: list of integers uniquely identifying a hand to the server.
 """
@@ -1267,13 +1267,13 @@ for this query to succeed.
 Direction: server <=  client
 
 Context: the answer of the server to this query is a
- PACKET_POKER_HAND_LIST packet.
+ :class:`PACKET_POKER_HAND_LIST <pokerpackets.networkpackets.PacketPokerHandList>` packet.
 
 string: a valid SQL WHERE expression on the hands table. The
 available fields are "name" for the symbolic name of the hand,
 "description" for the python expression describing the hand, "serial"
 for the unique identifier of the hand also known as the hand_serial
-in the PACKET_POKER_START packet.
+in the :class:`PACKET_POKER_START <pokerpackets.networkpackets.PacketPokerStart>` packet.
 """
 
 Packet.infoDeclare(globals(), PacketPokerHandSelectAll, Packet, "POKER_HAND_SELECT_ALL", 91) # 91 # 0x5b
@@ -1282,11 +1282,11 @@ Packet.infoDeclare(globals(), PacketPokerHandSelectAll, Packet, "POKER_HAND_SELE
 class PacketPokerUserInfo(PacketSerial):
     """\
 Semantics: read only user descriptive information, complement
-of PACKET_POKER_PLAYER_INFO.
+of :class:`PACKET_POKER_PLAYER_INFO <pokerpackets.networkpackets.PacketPokerPlayerInfo>`.
 
 Direction: server  => client
 
-Context: answer to the PACKET_POKER_GET_USER_INFO packet.
+Context: answer to the :class:`PACKET_POKER_GET_USER_INFO <pokerpackets.networkpackets.PacketPokerGetUserInfo>` packet.
 
 rating: server wide ELO rating.
 serial: integer uniquely identifying a player.
@@ -1313,7 +1313,7 @@ for player "serial".
 
 Direction: server <=  client
 
-Context: a user must first login (PACKET_LOGIN) successfully
+Context: a user must first login (:class:`PACKET_LOGIN <pokerpackets.packets.PacketLogin>`) successfully
 before sending this packet.
 
 serial: integer uniquely identifying a player.
@@ -1329,9 +1329,9 @@ Semantics: the player "serial" paid an amount of
 
 Direction: server <=> client
 
-Context: the server always sends a PACKET_POKER_POSITION before
+Context: the server always sends a :class:`PACKET_POKER_POSITION <pokerpackets.networkpackets.PacketPokerPosition>` before
 sending this packet. The client may send this packet after
-receiving a PACKET_POKER_ANTE_REQUEST.
+receiving a :class:`PACKET_POKER_ANTE_REQUEST <pokerpackets.networkpackets.PacketPokerAnteRequest>`.
 
 Note: the amount may be lower than requested by the betting structure
 when in tournament. Ring games will refuse a player to enter the with
@@ -1356,9 +1356,9 @@ in game "game_id".
 
 Direction: server <=> client
 
-Context: the server always sends a PACKET_POKER_POSITION before
+Context: the server always sends a :class:`PACKET_POKER_POSITION <pokerpackets.networkpackets.PacketPokerPosition>` before
 sending this packet. The client may send this packet after
-receiving a PACKET_POKER_BLIND_REQUEST.
+receiving a :class:`PACKET_POKER_BLIND_REQUEST <pokerpackets.networkpackets.PacketPokerBlindRequest>`.
 
 Note: the dead and amount fields are ignored in packets sent
 to the server. They are calculated by the server according to
@@ -1388,12 +1388,12 @@ to reach his seat in game "game_id" before entering the game.
 
 Direction: server <=  client
 
-Context: answer to a PACKET_POKER_BLIND_REQUEST. The server
+Context: answer to a :class:`PACKET_POKER_BLIND_REQUEST <pokerpackets.networkpackets.PacketPokerBlindRequest>`. The server
 will implicitly sit out the player by not including him in
-the PACKET_POKER_IN_GAME packet sent at the end of the "blindAnte"
-round. The PACKET_POKER_WAIT_FOR packet is inferred to avoid complex
-interpretation of PACKET_POKER_IN_GAME and can be considered
-equivalent to a PACKET_POKER_SIT_OUT packet if the distinction is
+the :class:`PACKET_POKER_IN_GAME <pokerpackets.networkpackets.PacketPokerInGame>` packet sent at the end of the "blindAnte"
+round. The :class:`PACKET_POKER_WAIT_FOR <pokerpackets.networkpackets.PacketPokerWaitFor>` packet is inferred to avoid complex
+interpretation of :class:`PACKET_POKER_IN_GAME <pokerpackets.networkpackets.PacketPokerInGame>` and can be considered
+equivalent to a :class:`PACKET_POKER_SIT_OUT <pokerpackets.networkpackets.PacketPokerSitOut>` packet if the distinction is
 not important to the client.
 
 serial: integer uniquely identifying a player.
@@ -1427,7 +1427,7 @@ Packet.infoDeclare(globals(), PacketPokerAutoBlindAnte, Packet, "POKER_AUTO_BLIN
 class PacketPokerNoautoBlindAnte(PacketPokerId):
     """\
 Semantics: the player "serial" asks the server to send a
-           PACKET_POKER_BLIND_REQUEST or/and PACKET_POKER_ANTE_REQUEST
+           :class:`PACKET_POKER_BLIND_REQUEST <pokerpackets.networkpackets.PacketPokerBlindRequest>` or/and :class:`PACKET_POKER_ANTE_REQUEST <pokerpackets.networkpackets.PacketPokerAnteRequest>`
            when a blind or/and ante for game "game_id" must be paid.
 
            In response ot this packet, the server sends
@@ -1475,10 +1475,10 @@ state of the blind is given in "state".
 
 Direction: server  => client
 
-Context: a PACKET_POKER_POSITION packet is sent by the server before
-this packet. The answer may be a PACKET_POKER_SIT_OUT (to refuse to
-pay the blind), PACKET_POKER_BLIND (to pay the blind),
- PACKET_POKER_WAIT_BIG_BLIND (if not willing to pay a late blind but
+Context: a :class:`PACKET_POKER_POSITION <pokerpackets.networkpackets.PacketPokerPosition>` packet is sent by the server before
+this packet. The answer may be a :class:`PACKET_POKER_SIT_OUT <pokerpackets.networkpackets.PacketPokerSitOut>` (to refuse to
+pay the blind), :class:`PACKET_POKER_BLIND <pokerpackets.networkpackets.PacketPokerBlind>` (to pay the blind),
+ :class:`PACKET_POKER_WAIT_BIG_BLIND <pokerpackets.networkpackets.PacketPokerWaitBigBlind>` (if not willing to pay a late blind but
 willing to pay the big blind when due).
 
 state: "small", "big", "late", "big_and_dead".
@@ -1500,9 +1500,9 @@ of "amount" for game"game_id".
 
 Direction: server  => client
 
-Context: a PACKET_POKER_POSITION packet is sent by the server before
-this packet. The answer may be a PACKET_POKER_SIT_OUT (to refuse to
-pay the ante), PACKET_POKER_ANTE (to pay the ante).
+Context: a :class:`PACKET_POKER_POSITION <pokerpackets.networkpackets.PacketPokerPosition>` packet is sent by the server before
+this packet. The answer may be a :class:`PACKET_POKER_SIT_OUT <pokerpackets.networkpackets.PacketPokerSitOut>` (to refuse to
+pay the ante), :class:`PACKET_POKER_ANTE <pokerpackets.networkpackets.PacketPokerAnte>` (to pay the ante).
 
 amount: amount to pay for the ante.
 serial: integer uniquely identifying a player.
@@ -1521,7 +1521,7 @@ Direction: server  => client
 
 Context: this packet informs the players at the table about
 a change of state for a player in tournament games. This
-state can be canceled by a PACKET_POKER_SIT packet for the same
+state can be canceled by a :class:`PACKET_POKER_SIT <pokerpackets.networkpackets.PacketPokerSit>` packet for the same
 player.
 
 serial: integer uniquely identifying a player.
@@ -1536,16 +1536,16 @@ class PacketPokerWaitFor(PacketPokerId):
 Semantics: the player "serial" waits for the late
 blind (if "reason" == "late") or the big blind (if
 "reason" == "big") in game "game_id". Otherwise equivalent
-to PACKET_POKER_SIT_OUT.
+to :class:`PACKET_POKER_SIT_OUT <pokerpackets.networkpackets.PacketPokerSitOut>`.
 
 Direction: server  => client / client <=> client
 
 Context: when sent by the server, it means that the answer of a client
-to a PACKET_POKER_BLIND_REQUEST or a PACKET_POKER_ANTE_REQUEST was to
-wait for something (i.e.  PACKET_POKER_WAIT_BIG_BLIND) or that the
+to a :class:`PACKET_POKER_BLIND_REQUEST <pokerpackets.networkpackets.PacketPokerBlindRequest>` or a :class:`PACKET_POKER_ANTE_REQUEST <pokerpackets.networkpackets.PacketPokerAnteRequest>` was to
+wait for something (i.e.  :class:`PACKET_POKER_WAIT_BIG_BLIND <pokerpackets.networkpackets.PacketPokerWaitBigBlind>`) or that the
 server denied him the right to play this hand because he was on the
 small blind or on the button. When inferred, this packet can be
-handled as if it was a PACKET_POKER_SIT_OUT.
+handled as if it was a :class:`PACKET_POKER_SIT_OUT <pokerpackets.networkpackets.PacketPokerSitOut>`.
 
 reason: either "big" or "late".
 serial: integer uniquely identifying a player.
@@ -1566,7 +1566,7 @@ Direction: server  => client
 
 Context: this is the default mode in which the packets
 are to be interpreted by the client. This packet is
-only needed after a PACKET_POKER_BATCH_MODE packet was sent,
+only needed after a :class:`PACKET_POKER_BATCH_MODE <pokerpackets.networkpackets.PacketPokerBatchMode>` packet was sent,
 to come back to the default mode.
 
 serial: integer uniquely identifying a player.
@@ -1684,7 +1684,7 @@ for player "serial".
 
 Direction: server <=  client
 
-Context: a personal must first login (PACKET_LOGIN) successfully
+Context: a personal must first login (:class:`PACKET_LOGIN <pokerpackets.packets.PacketLogin>`) successfully
 before sending this packet.
 
 serial: integer uniquely identifying a player.
@@ -1698,7 +1698,7 @@ Packet.infoDeclare(globals(), PacketPokerGetPersonalInfo, Packet, "POKER_GET_PER
 class PacketPokerTourneySelect(PacketString):
     """\
 Semantics: request the list of tourneys matching the "string" constraint.
-The answer is a PACKET_POKER_TOURNEY_LIST packet. If no tournament matches
+The answer is a :class:`PACKET_POKER_TOURNEY_LIST <pokerpackets.networkpackets.PacketPokerTourneyList>` packet. If no tournament matches
 the constraint, the list will be empty.
 
 Direction: server <=  client
@@ -1760,12 +1760,12 @@ PacketNames[PACKET_POKER_TOURNEY_LIST] = "POKER_TOURNEY_LIST"
 
 class PacketPokerTourneyList(PacketList):
     """\
-Semantics: a list of PACKET_POKER_TOURNEY packets sent as a
+Semantics: a list of :class:`PACKET_POKER_TOURNEY <pokerpackets.networkpackets.PacketPokerTourney>` packets sent as a
 response to a PACKET_POKER_SELECT request.
 
 Direction: server  => client
 
-packets: a list of PACKET_POKER_TOURNEY packets.
+packets: a list of :class:`PACKET_POKER_TOURNEY <pokerpackets.networkpackets.PacketPokerTourney>` packets.
 """
 
     info = PacketList.info + (
@@ -1808,7 +1808,7 @@ back the packet to the client.
 If an error occurs during the tournament registration, the server
 will send back
 
-  PacketError(other_type = PACKET_POKER_TOURNEY_REGISTER)
+  PacketError(other_type = :class:`PACKET_POKER_TOURNEY_REGISTER <pokerpackets.networkpackets.PacketPokerTourneyRegister>`)
 
 with the "code" field name set as follows:
 
@@ -1856,7 +1856,7 @@ back the packet to the client.
 If an error occurs during the tournament registration, the server
 will send back
 
-  PacketError(other_type = PACKET_POKER_TOURNEY_UNREGISTER)
+  PacketError(other_type = :class:`PACKET_POKER_TOURNEY_UNREGISTER <pokerpackets.networkpackets.PacketPokerTourneyUnregister>`)
 
 with the "code" field name set as follows:
 
@@ -1961,7 +1961,7 @@ If the user is not logged in the following packet is returned
 
 PacketError(code = PacketPokerGetPlayerInfo.NOT_LOGGED,
             message = "Not logged in",
-            other_type = PACKET_POKER_GET_PLAYER_INFO)
+            other_type = :class:`PACKET_POKER_GET_PLAYER_INFO <pokerpackets.networkpackets.PacketPokerGetPlayerInfo>`)
 
 If the user is logged in a PacketPokerPlayerInfo packet is sent
 to the client.
@@ -2032,13 +2032,13 @@ the data related to the previous hand.
 Direction: server <= client
 
 Context: should be sent by the client immediately after receiving
-the POKER_START packet.
+the :class:`POKER_START <pokerpackets.networkpackets.PacketPokerStart>` packet.
 
 Note: the packet is ignored if the "serial" player is not at the table.
 
 Note: because of a race condition, it will not work as expected
 if the game plays too fast. For instance, if the hand finishes
-before the packet POKER_PROCESSING_HAND is received by the server.
+before the packet :class:`POKER_PROCESSING_HAND <pokerpackets.networkpackets.PacketPokerProcessingHand>` is received by the server.
 This will typically happen the first time a player gets a seat at the 
 table.
 
@@ -2234,7 +2234,7 @@ Packet.infoDeclare(globals(), PacketPokerRake, Packet, "POKER_RAKE", 136) # 136 
 
 class PacketPokerTourneyRank(PacketPokerId):
     """\
-Semantics: a PACKET_POKER_TOURNEY_RANK sent to the player who leaves the tournament
+Semantics: a :class:`PACKET_POKER_TOURNEY_RANK <pokerpackets.networkpackets.PacketPokerTourneyRank>` sent to the player who leaves the tournament
 
 Direction: server  => client
 
@@ -2296,7 +2296,7 @@ according to the "value" bit field as follows:
 
 Context: If the server accepts the request, a PacketAck is
 returned. Otherwise a PacketError is returned with
-other_type set to PACKET_POKER_EXPLAIN.
+other_type set to :class:`PACKET_POKER_EXPLAIN <pokerpackets.networkpackets.PacketPokerExplain>`.
 
 Note: in order to produce the desired behaviour, the
 PACKET_POKER_EXPLAIN must be sent before starting to
@@ -2483,7 +2483,7 @@ Direction: server <= client
 
 If the tourney_serial is not found occurs, the server will send back
 
-  PacketError(other_type = PACKET_POKER_GET_TOURNEY_MANAGER)
+  PacketError(other_type = :class:`PACKET_POKER_GET_TOURNEY_MANAGER <pokerpackets.networkpackets.PacketPokerGetTourneyManager>`)
 
 with the "code" field name set as follows:
 
@@ -2512,7 +2512,7 @@ class PacketPokerAutoPlay(PacketPokerId):
 Semantics: If the player leaves the keybord, or the connection breaks, a bot could play for player instead
 This Behaviour could be defined by this package.
 
-As soon as the player returns, or the connection is rebuild, the player should send a POkER_SIT packet.
+As soon as the player returns, or the connection is rebuild, the player should send a :class:`POKER_SIT <pokerpackets.networkpackets.PacketPokerSit>` packet.
 
 AUTOPLAY_NO  0x00
 AUTOPLAY_YES 0x01
@@ -2567,7 +2567,7 @@ Direction: server  <= client
 Context: If the locale is supported by the server, a PacketAck is
 returned, and future PokerExplain strings will be localized to the
 requested language.  Otherwise a PacketError is returned with other_type
-set to PACKET_POKER_SET_LOCALE.
+set to :class:`PACKET_POKER_SET_LOCALE <pokerpackets.networkpackets.PacketPokerSetLocale>`.
 
 locale: string representing a valid locale supported by the server configuration (e.g.,  "fr_FR" or "fr")
 serial: integer uniquely identifying a player.
@@ -2863,7 +2863,7 @@ Semantics: The player "serial" wishes to join a table that matches the
              PacketPokerError(code      = PacketPokerTableJoin.GENERAL_FAILURE,
                               message   = <some string of non-zero length, for use
                                           in displaying to the user>,
-                             other_type = PACKET_POKER_TABLE_PICKER,
+                             other_type = :class:`PACKET_POKER_TABLE_PICKER <pokerpackets.networkpackets.PacketPokerTablePicker>`,
                              serial     = <player's serial id>,
                              game_id    = <if failure occured before table matching criteria was identified: 0
                                            else: game.id for table where join was attempted>)
@@ -2931,7 +2931,7 @@ Semantics: The authorized player represented by "serial",
                  PacketAuthRequest()
            If at least one user cannot be registered, the response will be:
                  PacketPokerError(
-                   other_type = PACKET_POKER_CREATE_TOURNEY,
+                   other_type = :class:`PACKET_POKER_CREATE_TOURNEY <pokerpackets.networkpackets.PacketPokerCreateTourney>`,
                    code       = REGISTRATION_FAILED 
                    serial     = the serial of the tournament for which registration failed
 

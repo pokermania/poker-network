@@ -313,10 +313,10 @@ Semantics: all pots for game "game_id" are set to zero.
 
 Direction: client <=> client
 
-Context: it is inferred after a PACKET_POKER_TABLE or a
- PACKET_POKER_START packet is sent by the server. It is inferred
+Context: it is inferred after a :class:`PACKET_POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>` or a
+ :class:`PACKET_POKER_START <pokerpackets.networkpackets.PacketPokerStart>` packet is sent by the server. It is inferred
 after the pot is distributed (i.e. after the game terminates
-because a PACKET_POKER_WIN or PACKET_POKER_CANCELED is received).
+because a :class:`PACKET_POKER_WIN <pokerpackets.networkpackets.PacketPokerWin>` or :class:`PACKET_POKER_CANCELED <pokerpackets.networkpackets.PacketPokerCanceled>` is received).
 
 game_id: integer uniquely identifying a game.
 """
@@ -344,8 +344,8 @@ Context: inferred at the end of a sequence of packet related to
 a betting round. Paying the blind / ante is not considered a
 betting round. This packet is sent when the client side
 knows that the round is finished but before the corresponding
-packet (PACKET_POKER_STATE) has been received from the server.
-It will be followed by the POKER_BEGIN_ROUND packet, either
+packet (:class:`PACKET_POKER_STATE <pokerpackets.networkpackets.PacketPokerState>`) has been received from the server.
+It will be followed by the :class:`POKER_BEGIN_ROUND <pokerpackets.clientpackets.PacketPokerBeginRound>` packet, either
 immediately if the server has no delay between betting rounds
 or later if the server waits a few seconds between two betting
 rounds.
@@ -382,17 +382,17 @@ in "serials" in game "game_id".
 Direction: client <=> client
 
 Context: inferred after the beginning of a betting round (i.e.
-after the PACKET_POKER_STATE packet is received) and after
+after the :class:`PACKET_POKER_STATE <pokerpackets.networkpackets.PacketPokerState>` packet is received) and after
 the chips involved in the previous betting round have been
 sorted (i.e. after PACKET_POKER_CHIPS_BET2POT packets are
-inferred). Contrary to the PACKET_POKER_PLAYER_CARDS,
+inferred). Contrary to the :class:`PACKET_POKER_PLAYER_CARDS <pokerpackets.networkpackets.PacketPokerPlayerCards>`,
 this packet is only sent if cards must be dealt. It
 is guaranteed that this packet will always occur before
-the PACKET_POKER_PLAYER_CARDS that specify the cards to
+the :class:`PACKET_POKER_PLAYER_CARDS <pokerpackets.networkpackets.PacketPokerPlayerCards>` that specify the cards to
 be dealt and that these packets will follow immediately
 after it (no other packet will be inserted between this packet
-and the first PACKET_POKER_PLAYER_CARDS). It is also guaranteed
-that exactly one PACKET_POKER_PLAYER_CARDS will occur for each
+and the first :class:`PACKET_POKER_PLAYER_CARDS <pokerpackets.networkpackets.PacketPokerPlayerCards>`). It is also guaranteed
+that exactly one :class:`PACKET_POKER_PLAYER_CARDS <pokerpackets.networkpackets.PacketPokerPlayerCards>` will occur for each
 serial listed in "serials".
 
 numberOfCards: number of cards to be dealt.
@@ -434,7 +434,7 @@ Packet.infoDeclare(globals(), PacketPokerDisplayCard, PacketPokerId, "POKER_DISP
 class PacketPokerSelfInPosition(PacketPokerPosition):
     """\
 Semantics: the player authenticated for this connection
-is in position. Otherwise identical to PACKET_POKER_POSITION.
+is in position. Otherwise identical to :class:`PACKET_POKER_POSITION <pokerpackets.networkpackets.PacketPokerPosition>`.
 
 """
     pass #pragma: no cover
@@ -446,7 +446,7 @@ Packet.infoDeclare(globals(), PacketPokerSelfInPosition, PacketPokerPosition, "P
 class PacketPokerSelfLostPosition(PacketPokerPosition):
     """\
 Semantics: the player authenticated for this connection
-is in position. Otherwise identical to PACKET_POKER_POSITION.
+is in position. Otherwise identical to :class:`PACKET_POKER_POSITION <pokerpackets.networkpackets.PacketPokerPosition>`.
 
 """
     pass #pragma: no cover
@@ -607,7 +607,7 @@ Direction: client <=> client
 Context: inferred when the client knows that a betting round will
 begin although it does not yet received information from the server to
 initialize it. Paying the blind / ante is not considered a betting
-round. It follows the POKER_END_ROUND packet, either
+round. It follows the :class:`POKER_END_ROUND <pokerpackets.clientpackets.PacketPokerEndRound>` packet, either
 immediatly if the server has no delay between betting rounds
 or later if the server waits a few seconds between two betting
 rounds.
@@ -639,14 +639,14 @@ the "game_ids" list.
 
 Direction: client <=> client
 
-Context: inferred when the client receives a POKER_TABLE packet (for
-instance, a POKER_TABLE packet is sent to the client when a
+Context: inferred when the client receives a :class:`POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>` packet (for
+instance, a :class:`POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>` packet is sent to the client when a
 POKER_TABLE_JOIN was sent to the server).  The list of game ids
-contains the id matching the POKER_TABLE packet that was just
+contains the id matching the :class:`POKER_TABLE <pokerpackets.networkpackets.PacketPokerTable>` packet that was just
 received.
 
 Note to applications embedding the poker-network python library:
-When not in the context of a POKER_EXPLAIN server mode,
+When not in the context of a :class:`POKER_EXPLAIN <pokerpackets.networkpackets.PacketPokerExplain>` server mode,
 the packet is also inferred as a side effect of the 
 PokerExplain.packetsTableQuit method that is called by the application 
 when the user decides to leave the table.
@@ -778,7 +778,7 @@ Semantics: the game "game_id" will automatically go to showdown
 Direction: client <=> client
 
 Context: when all players are all-in, the board cards will be
-dealt automatically. The POKER_ALLIN_SHOWDOWN packet is created
+dealt automatically. The :class:`POKER_ALLIN_SHOWDOWN <pokerpackets.clientpackets.PacketPokerAllinShowdown>` packet is created
 as soon as such a situation is detected. The client can chose
 to behave differently, for instance to postpone the display of
 the board cards until after the muck phase of the game.
