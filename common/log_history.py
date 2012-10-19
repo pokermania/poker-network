@@ -1,41 +1,33 @@
 # -*- coding: utf-8 *-*
 
-import logging
 from collections import namedtuple
+from reflogging import root_logger
+from reflogging.handlers import BaseHandler
 
 Message = namedtuple('Message', ['severity', 'path', 'refs', 'message', 'args', 'formated'])
 
-logging.getLogger().setLevel(logging.DEBUG)
+root_logger.set_level(10)
 
-class TestLoggingHandler(logging.Handler):
+class TestLoggingHandler(BaseHandler):
 
-    def __init__(self, log, level=logging.DEBUG):
-        self.log = log
-        logging.Handler.__init__(self, level=level)
+    def __init__(self):
+        BaseHandler.__init__(self)
+        self.set_level(10)
 
-    def emit(self, record):
-        self.log.output.append(Message(
-            severity = record.levelno,
-            path = record.name,
-            refs = record.refs if hasattr(record, 'refs') else '[]',
-            message = record.msg,
-            args = record.args,
-            formated = self.format(record)
+    def record(self, severity, name, refs, format, *a, **kw):
+        log_history.output.append(Message(
+            severity = severity,
+            path = name,
+            refs = str(refs),
+            message = format,
+            args = a,
+            formated = format % a if a else format
         ))
 
 class Log(object):
 
-    def __init__(self, logger=None):
+    def __init__(self):
         self.reset()
-        self.handler = TestLoggingHandler(self)
-        self.logger = logger if logger else logging.getLogger()
-        self.logger.addHandler(self.handler)
-
-    def __del__(self):
-        self.unregister()
-
-    def unregister(self):
-        self.logger.removeHandler(self.handler)
 
     def reset(self):
         self.output = []
@@ -48,6 +40,10 @@ class Log(object):
             if needle in m.formated:
                 return True
         return False
+
+log_history = Log()
+root_logger.add_handler(TestLoggingHandler())
+
 
 
 
