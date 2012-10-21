@@ -1,3 +1,10 @@
+poker-packets (2.2.3-1) pokermania; urgency=low
+
+  * d5339dd now using new reflogging from github.com/tuco86/reflogging
+  * 5b036b7 added links for sphinx docu
+
+ -- Andor Goetzendorff <andor@pokermania.de>  Mon, 22 Oct 2012 01:03:00 +0200
+
 poker-packets (2.2.0-3) pokermania; urgency=low
 
   * added constant to networkpackets
