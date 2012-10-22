@@ -123,21 +123,6 @@ Packet.infoDeclare(globals(), PacketPokerPotChips, Packet, 'POKER_POT_CHIPS', 17
 
 ########################################
 
-class PacketPokerClientAction(PacketPokerId):
-    """
-
-    The action available/not available to the player
-    
-    """
-
-    info = PacketPokerId.info + ( ("display", 0, 'B'),
-                                  ("action", "", 's'),
-                                  )
-
-Packet.infoDeclare(globals(), PacketPokerClientAction, PacketPokerId, 'POKER_CLIENT_ACTION', 172) # 0xac # %SEQ%
-
-########################################
-
 class PacketPokerBetLimit(PacketPokerId):
     """\
 Semantics: a raise must be at least "min" and most "max".
@@ -357,21 +342,6 @@ game_id: integer uniquely identifying a game.
 
 Packet.infoDeclare(globals(), PacketPokerEndRound, PacketPokerId, "POKER_END_ROUND", 182) # 0xb6 # %SEQ%
 
-########################################
-
-class PacketPokerDisplayNode(Packet):
-    """request POKER_DISPLAY_NODE packet"""
-
-    info = Packet.info + (
-        ('game_id', 0, 'I'),
-        ('name', '', 's'),
-        ('state', 0, 'I'),
-        ('style', '', 's'),
-        ('selection', None, 'no net'),
-        )
-    
-Packet.infoDeclare(globals(), PacketPokerDisplayNode, Packet, 'POKER_DISPLAY_NODE', 183) # 0xb7 # %SEQ%
-
 ######################################## Display packet
 
 class PacketPokerDealCards(PacketPokerId):
@@ -405,29 +375,6 @@ game_id: integer uniquely identifying a game.
         )
 
 Packet.infoDeclare(globals(), PacketPokerDealCards, PacketPokerId, 'POKER_DEAL_CARDS', 184) # 0xb8 # %SEQ%
-
-########################################
-
-class PacketPokerChatHistory(Packet):
-    """chat history show"""
-
-    info = Packet.info + (
-        ('show', 'no', 's'),
-        )
-
-Packet.infoDeclare(globals(), PacketPokerChatHistory, Packet, "POKER_CHAT_HISTORY", 185) # 0xb9 # %SEQ%
-    
-########################################
-
-class PacketPokerDisplayCard(PacketPokerId):
-    """Hide a player card"""
-
-    info = PacketPokerId.info + (
-        ('index', [], 'Bl'),
-        ('display', 0, 'B'),
-        )
-
-Packet.infoDeclare(globals(), PacketPokerDisplayCard, PacketPokerId, "POKER_DISPLAY_CARD", 186) # 0xba # %SEQ%
 
 ########################################
 
@@ -493,108 +440,6 @@ serial: integer uniquely identifying a player.
     pass #pragma: no cover
 
 Packet.infoDeclare(globals(), PacketPokerPlayerWin, PacketPokerId, "POKER_PLAYER_WIN", 190) # 0xbe # %SEQ%
-
-########################################
-
-class PacketPokerAnimationPlayerNoise(PacketPokerId):
-    """\
-Semantics: the player "serial" play or stop noise animation.
-
-Direction: client <=> client
-
-Context: a PacketPokerPlayerNoise is send to the client c++ to stop or start
-player's noise animation.
-
-serial: integer uniquely identifying a player.
-action: string that contain "start" or "stop".
-"""
-
-    info = PacketPokerId.info + (
-        ('action', 'start', 's'),
-        )
-    
-Packet.infoDeclare(globals(), PacketPokerAnimationPlayerNoise, PacketPokerId, "POKER_ANIMATION_PLAYER_NOISE", 191) # 0xbf # %SEQ%
-
-########################################
-
-class PacketPokerAnimationPlayerFold(PacketPokerId):
-    """\
-Semantics: the player "serial" play an animation fold.
-
-Direction: client <=> client
-
-Context: a PacketPokerPlayerNoise is send to the client c++ to stop or start
-player's noise animation.
-
-serial: integer uniquely identifying a player.
-animation: string used to select an animation fold.
-"""
-
-    info = PacketPokerId.info + (
-        ('animation', 'UNKNOWN', 's'),
-        )
-
-Packet.infoDeclare(globals(), PacketPokerAnimationPlayerFold, PacketPokerId, "POKER_ANIMATION_PLAYER_FOLD", 192) # 0xc0 # %SEQ%
-
-########################################
-
-class PacketPokerAnimationPlayerBet(PacketPokerId):
-    """\
-"""
-
-    info = PacketPokerId.info + (
-        ('animation', '', 's'),
-        ('chips', [], 'c'),
-        ('amount', 0, 'I'),
-        )
-
-    def infoInit(self, **kwargs):
-        Packet.infoInit(self, **kwargs)
-        self.amount = chips2amount(self.chips)
-        
-Packet.infoDeclare(globals(), PacketPokerAnimationPlayerBet, PacketPokerId, "POKER_ANIMATION_PLAYER_BET", 193) # 0xc1 # %SEQ%
-
-########################################
-
-class PacketPokerAnimationPlayerChips(PacketPokerId):
-    """\
-"""
-    info = PacketPokerId.info + (
-        ('animation', '', 's'),
-        ('chips', [], 'c'),
-        ('state', '', 's'),
-        ('amount', 0, 'I'),
-        )
-
-    def infoInit(self, **kwargs):
-        Packet.infoInit(self, **kwargs)
-        self.amount = chips2amount(self.chips)
-        
-Packet.infoDeclare(globals(), PacketPokerAnimationPlayerChips, PacketPokerId, "POKER_ANIMATION_PLAYER_CHIPS", 194) # 0xc2 # %SEQ%
-
-########################################
-
-class PacketPokerAnimationDealerChange(PacketPokerId):
-    """\
-"""
-
-    info = PacketPokerId.info + (
-        ('state', 'UNKNOWN', 's'),
-        )
-
-Packet.infoDeclare(globals(), PacketPokerAnimationDealerChange, PacketPokerId, "POKER_ANIMATION_DEALER_CHANGE", 195) # 0xc3 # %SEQ%
-
-########################################
-
-class PacketPokerAnimationDealerButton(PacketPokerId):
-    """\
-"""
-
-    info = PacketPokerId.info + (
-        ('state', 'UNKNOWN', 's'),
-        )
-
-Packet.infoDeclare(globals(), PacketPokerAnimationDealerButton, PacketPokerId, "POKER_ANIMATION_DEALER_BUTTON", 196) # 0xc4 # %SEQ%
 
 ########################################
 
@@ -669,42 +514,12 @@ class PacketPokerEndRoundLast(PacketPokerId):
 
 Packet.infoDeclare(globals(), PacketPokerEndRoundLast, PacketPokerId, "POKER_END_ROUND_LAST", 199) # 0xc7 # %SEQ%
 
-######################################## Stop or Start animation
-
-class PacketPokerPythonAnimation(PacketPokerId):
-
-    info = PacketPokerId.info + (
-        ('animation', 'none', 's'),
-        )
-    
-Packet.infoDeclare(globals(), PacketPokerPythonAnimation, PacketPokerId, "POKER_PYTHON_ANIMATION", 200) # 0xc8 # %SEQ%
-
 ########################################
 
 class PacketPokerSitOutNextTurn(PacketPokerSitOut):
     pass #pragma: no cover
 
 Packet.infoDeclare(globals(), PacketPokerSitOutNextTurn, PacketPokerId, "POKER_SIT_OUT_NEXT_TURN", 201) # 0xc9 # %SEQ%
-
-########################################
-
-class PacketPokerRendererState(Packet):
-
-    info = Packet.info + (
-        ('state', 'idle', 's'),
-        )
-    
-Packet.infoDeclare(globals(), PacketPokerRendererState, Packet, "POKER_RENDERER_STATE", 202) # 0xca # %SEQ%
-
-########################################
-
-class PacketPokerChatWord(PacketPokerId):
-
-    info = PacketPokerId.info + (
-        ('word', 'no word', 's'),
-        )
-    
-Packet.infoDeclare(globals(), PacketPokerChatWord, PacketPokerId, "POKER_CHAT_WORD", 203) # 0xcb # %SEQ%
 
 ########################################
 
@@ -728,46 +543,6 @@ class PacketPokerClientPlayerChips(Packet):
         )
 
 Packet.infoDeclare(globals(), PacketPokerClientPlayerChips, Packet, "POKER_CLIENT_PLAYER_CHIPS", 205) # 0xcd # %SEQ%
-
-########################################
-
-class PacketPokerInterfaceCommand(Packet):
-
-    info = Packet.info + (
-        ('window', None, 'no net'),
-        ('command', None, 'no net'),
-        )
-
-Packet.infoDeclare(globals(), PacketPokerInterfaceCommand, Packet, "POKER_INTERFACE_COMMAND", 206) # 0xce # %SEQ%
-
-########################################
-
-class PacketPokerPlayerMeLookCards(PacketPokerId):
-    """\
-Semantics: the player "serial" is looking at his cards
-in game "game_id".
-
-Direction: client <=> client
-
-serial: integer uniquely identifying a player.
-game_id: integer uniquely identifying a game.
-"""
-    info = PacketPokerId.info + (
-        ('state', 'UNKNOWN', 's'),
-        ('when', 'now', 's'),
-        )
-
-Packet.infoDeclare(globals(), PacketPokerPlayerMeLookCards, PacketPokerId, "POKER_PLAYER_ME_LOOK_CARDS", 207) # 0xcf # %SEQ%
-
-########################################
-
-class PacketPokerPlayerMeInFirstPerson(PacketPokerId):
-
-    info = PacketPokerId.info + (
-        ('state', 'UNKNOWN', 's'),
-        )
-
-Packet.infoDeclare(globals(), PacketPokerPlayerMeInFirstPerson, PacketPokerId, "POKER_PLAYER_ME_IN_FIRST_PERSON", 208) # 0xd0 # %SEQ%
 
 ########################################
 

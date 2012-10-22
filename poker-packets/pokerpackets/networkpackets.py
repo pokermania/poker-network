@@ -1202,9 +1202,6 @@ game_id: integer uniquely identifying a game.
 Packet.infoDeclare(globals(), PacketPokerPlayerArrive, Packet, "POKER_PLAYER_ARRIVE", 88) # 88 # 0x58
 ########################################
 
-PACKET_POKER_HAND_SELECT = 89 # 0x59 # %SEQ%
-PacketNames[PACKET_POKER_HAND_SELECT] = "POKER_HAND_SELECT"
-
 class PacketPokerHandSelect(PacketString):
     """\
 Semantics: query the hand history for player "serial"
@@ -1234,9 +1231,6 @@ serial: integer uniquely identifying a player.
     
 Packet.infoDeclare(globals(), PacketPokerHandSelect, Packet, "POKER_HAND_SELECT", 89) # 89 # 0x59
 ########################################
-
-PACKET_POKER_HAND_LIST = 90 # 0x5a # %SEQ%
-PacketNames[PACKET_POKER_HAND_LIST] = "POKER_HAND_LIST"
 
 class PacketPokerHandList(PacketPokerHandSelect):
     """\
@@ -1344,9 +1338,6 @@ game_id: integer uniquely identifying a game.
 
 Packet.infoDeclare(globals(), PacketPokerAnte, Packet, "POKER_ANTE", 94) # 94 # 0x5e
 ########################################
-
-PACKET_POKER_BLIND = 95 # 0x5f # %SEQ%
-PacketNames[PACKET_POKER_BLIND] = "POKER_BLIND"
 
 class PacketPokerBlind(PacketPokerInt):
     """\
@@ -1463,9 +1454,6 @@ game_id: integer uniquely identifying a game.
 
 Packet.infoDeclare(globals(), PacketPokerCanceled, Packet, "POKER_CANCELED", 99) # 99 # 0x63
 ########################################
-
-PACKET_POKER_BLIND_REQUEST = 100 # 0x64 # %SEQ%
-PacketNames[PACKET_POKER_BLIND_REQUEST] = "POKER_BLIND_REQUEST"
 
 class PacketPokerBlindRequest(PacketPokerBlind):
     """\
@@ -1720,8 +1708,6 @@ string: 1) empty string selects all tournaments
 
 Packet.infoDeclare(globals(), PacketPokerTourneySelect, Packet, "POKER_TOURNEY_SELECT", 111) # 111 # 0x6f
 ########################################
-PACKET_POKER_TOURNEY = 112 # 0x70 # %SEQ%
-PacketNames[PACKET_POKER_TOURNEY] = "POKER_TOURNEY"
 
 class PacketPokerTourney(Packet):
 
@@ -1754,9 +1740,6 @@ class PacketPokerTourneyInfo(PacketPokerTourney):
 
 Packet.infoDeclare(globals(), PacketPokerTourneyInfo, Packet, "POKER_TOURNEY_INFO", 113) # 113 # 0x71
 ########################################
-
-PACKET_POKER_TOURNEY_LIST = 114 # 0x72 # %SEQ%
-PacketNames[PACKET_POKER_TOURNEY_LIST] = "POKER_TOURNEY_LIST"
 
 class PacketPokerTourneyList(PacketList):
     """\
