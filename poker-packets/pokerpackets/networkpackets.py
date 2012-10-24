@@ -867,7 +867,7 @@ reason: string representing the reason that this packet is being sent to
         ('currency_serial', 0, 'I'),
         ('name', 'noname', 's'),
         ('variant', 'holdem', 's'),
-        ('betting_structure', '2-4-limit', 's'),
+        ('betting_structure', '1-2_20-200_limit', 's'),
         ('skin', 'default', 's'),
         ('reason', '', 's'),
         ('tourney_serial', 0, 'I'),
